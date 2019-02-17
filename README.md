@@ -70,3 +70,58 @@ If you finish the previous steps correctly, now you can run the server and enter
 ```
 > python manage.py runserver
 ```
+
+## make a todo app
+```
+> python manage.py startapp todo
+```
+### Create template
+- create new folder
+```
+> mkdir template
+```
+- add new file todo.html
+```
+<h1> this is a todView! <h1>
+```
+- add todo.html in djangoProject/setting
+```
+'DIRS': [os.path.join(BASE_DIR, 'templates')]
+```
+### View
+```
+from django.shortcuts import render
+from django.http import HttpResponse
+
+def myView(request):
+    return render(request, 'todo.html')
+```
+### add todo list in todo.html
+```
+<ul>
+    <li> todo list 1
+    <li> todo list 2
+</ul>
+```
+### Create model (sqlite)
+- models.py
+    ```
+    class TodoItem(models.Model):
+        content = models.TextField()
+    ```
+- create migration file
+    ```
+    > python manage.py makemigrations
+    ```
+    to change the configuration of our database.
+
+    To execute the changing:
+    ```
+    > python manage.py migrate
+    ```
+- interact with the model
+```
+> python manage.py shell
+```
+# #3 11:40 
+
