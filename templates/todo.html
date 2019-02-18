@@ -1,0 +1,11 @@
+<h1>TODO Page</h1>
+<ul>
+    {% for todo_item in all_items %}
+        <li>{{ todo_item.content }}</li>
+    {% endfor %}
+</ul>
+
+<form action="addTodo" method="POST">
+    <input type="text" name="content">
+    <input type="submit" value="Add">
+</form>

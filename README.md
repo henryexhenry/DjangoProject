@@ -72,10 +72,11 @@ If you finish the previous steps correctly, now you can run the server and enter
 ```
 
 ## make a todo app
+### 1. Start a new app
 ```
 > python manage.py startapp todo
 ```
-### Create template
+### 2. Create template
 - create new folder
 ```
 > mkdir template
@@ -88,7 +89,7 @@ If you finish the previous steps correctly, now you can run the server and enter
 ```
 'DIRS': [os.path.join(BASE_DIR, 'templates')]
 ```
-### View
+### 3. View
 ```
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -96,14 +97,14 @@ from django.http import HttpResponse
 def myView(request):
     return render(request, 'todo.html')
 ```
-### add todo list in todo.html
+### 4. Add todo list in todo.html
 ```
 <ul>
     <li> todo list 1
     <li> todo list 2
 </ul>
 ```
-### Create model (sqlite)
+### 5. Create model (sqlite)
 - models.py
     ```
     class TodoItem(models.Model):
@@ -120,8 +121,50 @@ def myView(request):
     > python manage.py migrate
     ```
 - interact with the model
+    ```
+    > python manage.py shell
+    ```
+    ```
+    >>> from todo.models import TodoItem
+    ```
+    - Create item
+        ```
+        a = TodoItem(content = 'permanent todo item A')
+        a.save()
+        ```
+    - Retrive item
+        ```
+        allItems = TodoItem.objects.all()
+        ```
+    - Delete item
+        ```
+        allItems[0].delete()
+        ```
+
+### 6. Pass the items from model to view
+view.py
 ```
-> python manage.py shell
+from .models import TodoItem
+
+def todoView(request):
+    all_todo_items = TodoItem.objects.all()
+    return render(request, 'todo.html',
+    {'all_items': all_todo_items})
 ```
-# #3 11:40 
+### 7. Pass the items from view to template
+todo.html
+```
+<ul>
+    {% for todo_item in all_items %}
+        <li>{{ todo_item.content }}</li>
+    {% endfor %}
+</ul>
+```
+### 8. Configure urls.py
+Add new template and function in urls.py
+### 9. Create form
+> action="/addTodo"
+"/addTodo" is url string
+django will look for urlpatterns to find respective function (addTodo), the addTodo function is imported from view.py
+
 
